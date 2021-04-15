@@ -8,91 +8,94 @@ const db = mysql.createPool({
     password:'Ayush@1088',
     database:'dbms',
 });
-//app.post("/api/insertp",(req,res)=>{
-    // const name=req.body.name;
-    // const pass=req.body.pass;
-    // const sqlInsert="INSERT INTO prodmanager(ProdName,ProdPass) VALUES (?,?);"
-    // db.query(sqlInsert,[name,pass],(err,result)=>{
+//app.post("/api/insertp",(req,res)=>{                 // For ProdManager Registration
+    // const UserName=req.body.ProdUserName;
+    // const name=req.body.ProdName;
+    // const pass=req.body.ProdPass;
+    // const sqlInsert="INSERT INTO prodmanager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
+    // db.query(sqlInsert,[UserName,name,pass],(err,result)=>{
     //     console.log();
     // })
 //});
-//app.post("/api/inserte",(req,res)=>{
-    // const name=req.body.name;
-    // const pass=req.body.pass;
-    // const sqlInsert="INSERT INTO employee(EmpName,EmpPass) VALUES (?,?);"
-    // db.query(sqlInsert,[name,pass],(err,result)=>{
+//app.post("/api/inserte",(req,res)=>{                  // For Employee Registration
+    // const UserName=req.body.EmpUserName;
+    // const name=req.body.EmpName;
+    // const pass=req.body.EmpPass;
+    // const sqlInsert="INSERT INTO employee(EmpUserName,EmpName,EmpPass) VALUES (?,?,?);"
+    // db.query(sqlInsert,[UserName,name,pass],(err,result)=>{
     //     console.log();
     // })
 //});
-//app.post("/api/insertt",(req,res)=>{
-    // const PId=req.body.PId;
-    // const sqlInsert="INSERT INTO team(ProdId) VALUES (?);"
-    // db.query(sqlInsert,[PId],(err,result)=>{
+//app.post("/api/insertt",(req,res)=>{                   //For Creating Team
+    // const ProdUserName=req.body.ProdUserName;
+    // const TeamName=req.body.TeamName
+    // const sqlInsert="INSERT INTO team (TeamName,ProdUserName) VALUES (?,?);",
+    // db.query(sqlInsert,[TeamName,ProdUserName],(err,result)=>{
     //     console.log();
     // })
 //});
-//app.put("/api/assign_project",(req,res)=>{
-    //const projct=req.body.project;
-    //const Date=req.body.date;
-    //const TId=req.body.TId;
-    // const sqlInsert="UPDATE SET team Project=?,Date=? Where TeamId=?;"
-    // db.query(sqlInsert,[project,date,TId],(err,result)=>{
-    //     console.log();
-    // })
-//});
-
-//app.put("/api/assign_team",(req,res)=>{
-    //const TId=req.body.TId;
-    //const EmpId=req.body.EId;
-    // const sqlAssign="UPDATE SET employee TeamId=? Where EmpId=?;"
-    // db.query(sqlAssign,[TId,EmpId],(err,result)=>{
+//app.put("/api/assign_project",(req,res)=>{               //For Project Assign
+    //const Projct=req.body.Project;
+    //const Date=req.body.Date;
+    //const TeamName=req.body.TeamName;
+    // const sqlInsert="UPDATE SET team Project=?,Date=? Where TeamName=?;"
+    // db.query(sqlInsert,[Project,Date,TeamName],(err,result)=>{
     //     console.log();
     // })
 //});
 
-//app.get("/api/checkp",(req,res)=>{
-    // const name=req.body.name;
-    // const sqlAuth="SELECT count(*) FROM prodmanager WHERE ProdName=?"
+//app.put("/api/assign_team",(req,res)=>{                   //For Adding emp to team
+    //const TeamName=req.body.TeamName;
+    //const EmpUserName=req.body.EmpUserName;
+    // const sqlAssign="INSERT INTO teamtoemp(TeamName,EmpUserName) VALUES (?,?);"
+    // db.query(sqlAssign,[TeamName,EmpUserName],(err,result)=>{
+    //     console.log();
+    // })
+//});
+
+//app.get("/api/checkp",(req,res)=>{                         //TO check if same username exist for prodmanager
+    // const name=req.body.ProdUserName;
+    // const sqlAuth="SELECT count(*) FROM prodmanager WHERE ProdUserName=?"
     // db.query(sqlAuth,[name],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/checke",(req,res)=>{
-    // const name=req.body.name;
-    // const sqlAuth="SELECT count(*) FROM employee WHERE EmpName=?"
+//app.get("/api/checke",(req,res)=>{                          //TO check if same username exist for employee
+    // const name=req.body.EmpUserName;
+    // const sqlAuth="SELECT count(*) FROM employee WHERE EmpUserName=?"
     // db.query(sqlAuth,[name],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/checkt",(req,res)=>{
-    // const name=req.body.name;
+//app.get("/api/checkt",(req,res)=>{                          //TO check if same name exist for Team
+    // const name=req.body.TeamName;
     // const sqlAuth="SELECT count(*) FROM team WHERE TeamName=?"
     // db.query(sqlAuth,[name],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/authp",(req,res)=>{
+//app.get("/api/authp",(req,res)=>{                            //For authentication of prodmanager
     // const name=req.body.name;
     // const pass=req.body.pass;
-    // const sqlAuth="SELECT count(*)FROM prodmanager WHERE ProdName=? AND ProdPass=?"
+    // const sqlAuth="SELECT count(*)FROM prodmanager WHERE ProdUserName=? AND ProdPass=?"
     // db.query(sqlAuth,[name,pass],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/authe",(req,res)=>{
+//app.get("/api/authe",(req,res)=>{                             //For authentication of employee
     // const name=req.body.name;
     // const pass=req.body.pass;
-    // const sqlAuth="SELECT count(*)FROM employee WHERE EmpName=? AND EmpPass=?"
+    // const sqlAuth="SELECT count(*)FROM employee WHERE EmpUserName=? AND EmpPass=?"
     // db.query(sqlAuth,[name,pass],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/team",(req,res)=>{
+//app.get("/api/team",(req,res)=>{                             //To get Teamdetails
     // const TeamName=req.body.TeamName;
     // const sqlget="SELECT * FROM teams WHERE TeamName=?"
     // db.query(sqlget,[TeamName],(err,result)=>{
@@ -100,73 +103,98 @@ const db = mysql.createPool({
     // })
 //});
 
-//app.get("/api/prod",(req,res)=>{
-    // const ProdName=req.body.ProdName;
-    // const sqlget="SELECT * FROM prodmanager WHERE ProdName=?"
-    // db.query(sqlget,[ProdName],(err,result)=>{
+//app.get("/api/prod",(req,res)=>{                             //To get Prodmanager details
+    // const ProdUserName=req.body.ProdUserName;
+    // const sqlget="SELECT * FROM prodmanager WHERE ProdUserName=?"
+    // db.query(sqlget,[ProdUserName],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/emp",(req,res)=>{
-    // const EmpName=req.body.EmpName;
-    // const sqlget="SELECT * FROM employee WHERE EmpName=?"
-    // db.query(sqlget,[EmpName],(err,result)=>{
+//app.get("/api/emp",(req,res)=>{                             //To get Emp details
+    // const EmpUserName=req.body.EmpUserName;
+    // const sqlget="SELECT * FROM employee WHERE EmpUserName=?"
+    // db.query(sqlget,[EmpUserName],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/view_teams",(req,res)=>{
-    // const ProdId=req.body.ProdId;
-    // const sqlget="SELECT * FROM teams WHERE ProdId=?"
-    // db.query(sqlget,[ProdId],(err,result)=>{
+//app.get("/api/view_teams",(req,res)=>{                             //View Teams madr by particular prodmanager
+    // const ProdUserName=req.body.ProdUserName;
+    // const sqlget="SELECT * FROM teams WHERE ProdUserName=?"
+    // db.query(sqlget,[ProdUserName],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/view_t_Employee",(req,res)=>{
+//app.get("/api/view_t_Employee",(req,res)=>{                             //Get EmpUserName of Emp in team
     // const TName=req.body.TName;
-    // const sqlget="SELECT * FROM Employee WHERE TeamName=?"
+    // const sqlget="SELECT EmpUserName FROM teamtoemp WHERE TeamName=?"
     // db.query(sqlget,[TName],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/view_nit_Employee",(req,res)=>{
+//app.get("/api/view_nit_Employee",(req,res)=>{                             //Get EmpUserName of Emp not in team
     // const TName=req.body.TName;
-    // const sqlget="SELECT * FROM Employee WHERE TeamName <> TName"
+    // const sqlget="SELECT EmpUserName FROM teamtoemp WHERE TeamName <> ?"
     // db.query(sqlget,[TName],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.get("/api/view_all_Employee",(req,res)=>{
+//app.get("/api/view_all_Employee",(req,res)=>{                             //View all Emp
     // const sqlget="SELECT * FROM Employee"
     // db.query(sqlget,(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.put("/api/remove_employee_from_team",(req,res)=>{
-    // const EmpName=req.body.EmpName;
-    // const sqlupdate="UPDATE SET employee TeamId=? WHERE EmpName=?"
-    // db.query(sqlupdate,[null,EmpName],(err,result)=>{
+//app.get("/api/view_Employee_to_team",(req,res)=>{                             //Get TeamName of Emp's teams
+    // const EmpUserName=req.body.EmpUserName;
+    // const sqlget="SELECT TeamName FROM teamtoemp WHERE EmpUserName=?"
+    // db.query(sqlget,[EnpUserName],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.delete("/api/delete_employee",(req,res)=>{
-    // const Ename=req.body.Ename;
-    // const sqldelete="DELETE FROM employee WHERE EmpName=?"
-    // db.query(sqldelete,[EName],(err,result)=>{
+//app.delete("/api/remove_employee_from_team",(req,res)=>{                       //Remove Emp from team
+    // const EmpUserName=req.body.EmpUserName;
+    // const TeamName=req.body.TeamName;
+    // const sqlupdate="Delete FROM teamtoemp where EmpUserName=? and TeamName=?";
+    // db.query(sqlupdate,[EmpUserName,TeamName],(err,result)=>{
     //     console.log(result);
     // })
 //});
 
-//app.delete("/api/delete_team",(req,res)=>{
-    // const TId=req.body.TId;
-    // const sqldelete="DELETE FROM employee WHERE TeamId=?"
-    // db.query(sqldelete,[TId],(err,result)=>{
+//app.delete("/api/delete_employee",(req,res)=>{                             //Delete emmployee
+    // const EmpUserName=req.body.EmpUserName;
+    // const sqldelete="DELETE FROM employee WHERE EmpUserName=?"
+    // db.query(sqldelete,[EmpUserName],(err,result)=>{
+    //     console.log(result);
+    // })
+//});
+
+//app.delete("/api/delete_employee_from_team",(req,res)=>{                     //Delete Employee (Call both)
+    // const EmpUserName=req.body.EmpUserName;
+    // const sqldelete="DELETE FROM teamtoemp WHERE EmpUserName=?"
+    // db.query(sqldelete,[EmpUserName],(err,result)=>{
+    //     console.log(result);
+    // })
+//});
+
+//app.delete("/api/delete_team",(req,res)=>{                             //Delete Team
+    // const TeamName=req.body.TeamName;
+    // const sqldelete="DELETE FROM employee WHERE TeamName=?"
+    // db.query(sqldelete,[TeamName],(err,result)=>{
+    //     console.log(result);
+    // })
+//});
+
+//app.delete("/api/delete_team_from_emp",(req,res)=>{                      //Delete Team(Call both),Remove all members from Team
+    // const TeamName=req.body.TeamName;
+    // const sqldelete="DELETE FROM employee WHERE TeamName=?"
+    // db.query(sqldelete,[EmpUserName],(err,result)=>{
     //     console.log(result);
     // })
 //});
