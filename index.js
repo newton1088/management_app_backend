@@ -9,18 +9,18 @@ const db = mysql.createPool({
     database:'sql6407900',
     port :'3306'
 });
-// app.post("/api/insertp",(req,res)=>{                 // For prodManager Registration
-    // const UserName=req.body.ProdUserName;
-    const UserName="Ayush21";
-    // const name=req.body.ProdName;
-    const name="Ayush213";
-    const pass="123456";
-    // const pass=req.body.ProdPass;
+app.post("/api/insertp",(req,res)=>{                 // For prodManager Registration
+    const UserName=req.body.ProdUserName;
+   // const UserName="Ayush21";
+    const name=req.body.ProdName;
+    // const name="Ayush213";
+   // const pass="123456";
+     const pass=req.body.ProdPass;
     const sqlInsert="INSERT INTO prodManager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
     db.query(sqlInsert,[UserName,name,pass],(err,result)=>{
         console.log("Done");
     })
-// });
+});
 //app.post("/api/inserte",(req,res)=>{                  // For Employee Registration
     // const UserName=req.body.EmpUserName;
     // const name=req.body.EmpName;
