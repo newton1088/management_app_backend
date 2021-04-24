@@ -3,20 +3,24 @@ const app= express();
 const mysql=require('mysql')
 
 const db = mysql.createPool({
-    host:'localhost',
-    user:'root',
-    password:'Ayush@1088',
-    database:'dbms',
+    host:'sql6.freesqldatabase.com',
+    user:'sql6407900',
+    password:'rIJ4sSllJb',
+    database:'sql6407900',
+    port :'3306'
 });
-//app.post("/api/insertp",(req,res)=>{                 // For ProdManager Registration
+// app.post("/api/insertp",(req,res)=>{                 // For prodManager Registration
     // const UserName=req.body.ProdUserName;
+    const UserName="Ayush21";
     // const name=req.body.ProdName;
+    const name="Ayush213";
+    const pass="123456";
     // const pass=req.body.ProdPass;
-    // const sqlInsert="INSERT INTO prodmanager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
-    // db.query(sqlInsert,[UserName,name,pass],(err,result)=>{
-    //     console.log();
-    // })
-//});
+    const sqlInsert="INSERT INTO prodManager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
+    db.query(sqlInsert,[UserName,name,pass],(err,result)=>{
+        console.log("Done");
+    })
+// });
 //app.post("/api/inserte",(req,res)=>{                  // For Employee Registration
     // const UserName=req.body.EmpUserName;
     // const name=req.body.EmpName;
@@ -53,9 +57,9 @@ const db = mysql.createPool({
     // })
 //});
 
-//app.get("/api/checkp",(req,res)=>{                         //TO check if same username exist for prodmanager
+//app.get("/api/checkp",(req,res)=>{                         //TO check if same username exist for prodManager
     // const name=req.body.ProdUserName;
-    // const sqlAuth="SELECT count(*) FROM prodmanager WHERE ProdUserName=?"
+    // const sqlAuth="SELECT count(*) FROM prodManager WHERE ProdUserName=?"
     // db.query(sqlAuth,[name],(err,result)=>{
     //     console.log(result);
     // })
@@ -77,10 +81,10 @@ const db = mysql.createPool({
     // })
 //});
 
-//app.get("/api/authp",(req,res)=>{                            //For authentication of prodmanager
+//app.get("/api/authp",(req,res)=>{                            //For authentication of prodManager
     // const name=req.body.name;
     // const pass=req.body.pass;
-    // const sqlAuth="SELECT count(*)FROM prodmanager WHERE ProdUserName=? AND ProdPass=?"
+    // const sqlAuth="SELECT count(*)FROM prodManager WHERE ProdUserName=? AND ProdPass=?"
     // db.query(sqlAuth,[name,pass],(err,result)=>{
     //     console.log(result);
     // })
@@ -103,9 +107,9 @@ const db = mysql.createPool({
     // })
 //});
 
-//app.get("/api/prod",(req,res)=>{                             //To get Prodmanager details
+//app.get("/api/prod",(req,res)=>{                             //To get prodManager details
     // const ProdUserName=req.body.ProdUserName;
-    // const sqlget="SELECT * FROM prodmanager WHERE ProdUserName=?"
+    // const sqlget="SELECT * FROM prodManager WHERE ProdUserName=?"
     // db.query(sqlget,[ProdUserName],(err,result)=>{
     //     console.log(result);
     // })
@@ -119,7 +123,7 @@ const db = mysql.createPool({
     // })
 //});
 
-//app.get("/api/view_teams",(req,res)=>{                             //View Teams madr by particular prodmanager
+//app.get("/api/view_teams",(req,res)=>{                             //View Teams madr by particular prodManager
     // const ProdUserName=req.body.ProdUserName;
     // const sqlget="SELECT * FROM teams WHERE ProdUserName=?"
     // db.query(sqlget,[ProdUserName],(err,result)=>{
