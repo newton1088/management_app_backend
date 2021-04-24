@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser')
-const cors= require('cors');
+const cors = require('cors');
 const app = express();
 const mysql = require('mysql')
 
@@ -14,7 +14,7 @@ const db = mysql.createPool({
 
 app.use(cors())
 app.use(express.json())
-app.use(bodyParser.urlencoded({extended:true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.post("/api/insertp", (req, res) => {                 // For prodManager Registration
     const UserName = req.body.ProdUserName;
     const name = req.body.ProdName;
@@ -22,18 +22,19 @@ app.post("/api/insertp", (req, res) => {                 // For prodManager Regi
     const sqlInsert = "INSERT INTO prodManager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
     db.query(sqlInsert, [UserName, name, pass], (err, result) => {
         res.send("success");
-        console.log(result,"result");
+        console.log(result, "result");
     })
 });
-//app.post("/api/inserte",(req,res)=>{                  // For Employee Registration
-// const UserName=req.body.EmpUserName;
-// const name=req.body.EmpName;
-// const pass=req.body.EmpPass;
-// const sqlInsert="INSERT INTO employee(EmpUserName,EmpName,EmpPass) VALUES (?,?,?);"
-// db.query(sqlInsert,[UserName,name,pass],(err,result)=>{
-//     console.log();
-// })
-//});
+app.post("/api/inserte", (req, res) => {                  // For Employee Registration
+    const UserName = req.body.EmpUserName;
+    const name = req.body.EmpName;
+    const pass = req.body.EmpPass;
+    const sqlInsert = "INSERT INTO employee(EmpUserName,EmpName,EmpPass) VALUES (?,?,?);"
+    db.query(sqlInsert, [UserName, name, pass], (err, result) => {
+        res.send("success");
+        console.log(result, "result");
+    })
+});
 //app.post("/api/insertt",(req,res)=>{                   //For Creating Team
 // const ProdUserName=req.body.ProdUserName;
 // const TeamName=req.body.TeamName
