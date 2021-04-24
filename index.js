@@ -20,11 +20,10 @@ app.post("/api/insertp", (req, res) => {                 // For prodManager Regi
     const name = req.body.ProdName;
     const pass = req.body.ProdPass;
     const sqlInsert = "INSERT INTO prodManager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
-    res.send("success");
-    // db.query(sqlInsert, [UserName, name, pass], (err, result) => {
-    //     res.send("success");
-    //     console.log(result,"result");
-    // })
+    db.query(sqlInsert, [UserName, name, pass], (err, result) => {
+        res.send("success");
+        console.log(result,"result");
+    })
 });
 //app.post("/api/inserte",(req,res)=>{                  // For Employee Registration
 // const UserName=req.body.EmpUserName;
