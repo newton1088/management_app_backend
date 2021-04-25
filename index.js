@@ -86,23 +86,45 @@ app.post("/api/inserte", (req, res) => {                  // For Employee Regist
 // })
 //});
 
-//app.get("/api/authp",(req,res)=>{                            //For authentication of prodManager
-// const name=req.body.name;
-// const pass=req.body.pass;
-// const sqlAuth="SELECT count(*)FROM prodManager WHERE ProdUserName=? AND ProdPass=?"
-// db.query(sqlAuth,[name,pass],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.get("/api/authp", (req, res) => {                            //For authentication of prodManager
+    const name = req.query.ProdUserName;
+    const pass = req.query.ProdPass;
+    const sqlAuth = "SELECT * FROM prodManager WHERE ProdUserName=? "
+    db.query(sqlAuth, [name], (err, result) => {
+        if(result.length >0){
+            if(pass===result[0].ProdPass){
+                res.send("1");
+            }
+            else{
+                res.send("2");
+            }
+        }
+        else{
+            res.status(400);
+            res.send("3");
+        }
+    })
+});
 
-//app.get("/api/authe",(req,res)=>{                             //For authentication of employee
-// const name=req.body.name;
-// const pass=req.body.pass;
-// const sqlAuth="SELECT count(*)FROM employee WHERE EmpUserName=? AND EmpPass=?"
-// db.query(sqlAuth,[name,pass],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.get("/api/authe", (req, res) => {                             //For authentication of employee
+    const name = req.query.EmpUserName;
+    const pass = req.query.EmpPass;
+    const sqlAuth = "SELECT * FROM employee WHERE EmpUserName=? "
+    db.query(sqlAuth, [name], (err, result) => {
+        if(result.length >0){
+            if(pass===result[0].EmpPass){
+                res.send("1");
+            }
+            else{
+                res.send("2");
+            }
+        }
+        else{
+            res.status(400);
+            res.send("3");
+        }
+    })
+});
 
 //app.get("/api/team",(req,res)=>{                             //To get Teamdetails
 // const TeamName=req.body.TeamName;
