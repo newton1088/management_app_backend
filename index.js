@@ -20,29 +20,62 @@ app.post("/api/insertp", (req, res) => {                 // For prodManager Regi
     const name = req.body.ProdName;
     const pass = req.body.ProdPass;
     const sqlInsert = "INSERT INTO prodManager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
-    db.query(sqlInsert, [UserName, name, pass], (err, result) => {
-        res.send("success");
-        console.log(result, "result");
+    const sqlAuth = "SELECT count(*) FROM prodManager WHERE ProdUserName=?"
+
+    db.query(sqlAuth, [name], (err, result) => {
+        if (result.length === 0) {
+            db.query(sqlInsert, [UserName, name, pass], (err, result1) => {
+                res.send("success");
+                console.log(result1, "result");
+            })
+        }
+        else {
+            res.status(400);
+            res.send();
+        }
     })
+
+
+
 });
 app.post("/api/inserte", (req, res) => {                  // For Employee Registration
     const UserName = req.body.EmpUserName;
     const name = req.body.EmpName;
     const pass = req.body.EmpPass;
     const sqlInsert = "INSERT INTO employee(EmpUserName,EmpName,EmpPass) VALUES (?,?,?);"
-    db.query(sqlInsert, [UserName, name, pass], (err, result) => {
-        res.send("success");
-        console.log(result, "result");
+    const sqlAuth = "SELECT * FROM employee WHERE EmpUserName=?"
+    db.query(sqlAuth, [UserName], (err, result) => {
+        if (result.length === 0) {
+            db.query(sqlInsert, [UserName, name, pass], (error, result1) => {
+                res.send("success");
+                console.log(result1, "result");
+            })
+        }
+        else {
+            res.status(400);
+            res.send();
+        }
     })
 });
-//app.post("/api/insertt",(req,res)=>{                   //For Creating Team
-// const ProdUserName=req.body.ProdUserName;
-// const TeamName=req.body.TeamName
-// const sqlInsert="INSERT INTO team (TeamName,ProdUserName) VALUES (?,?);",
-// db.query(sqlInsert,[TeamName,ProdUserName],(err,result)=>{
-//     console.log();
-// })
-//});
+app.post("/api/insertt", (req, res) => {                   //For Creating Team
+    const ProdUserName = req.body.ProdUserName;
+    const TeamName = req.body.TeamName
+    const sqlInsert = "INSERT INTO team (TeamName,ProdUserName) VALUES (?,?);"
+    const sqlAuth = "SELECT * FROM team WHERE TeamName=?"
+
+    db.query(sqlAuth, [TeamName], (err, result) => {
+        if (result.length === 0) {
+            db.query(sqlInsert, [TeamName, ProdUserName], (err, result1) => {
+                res.send("success")
+            })
+        }
+        else {
+            res.status(400);
+            res.send();
+        }
+    })
+
+});
 //app.put("/api/assign_project",(req,res)=>{               //For Project Assign
 //const Projct=req.body.Project;
 //const Date=req.body.Date;
@@ -91,15 +124,21 @@ app.get("/api/authp", (req, res) => {                            //For authentic
     const pass = req.query.ProdPass;
     const sqlAuth = "SELECT * FROM prodManager WHERE ProdUserName=? "
     db.query(sqlAuth, [name], (err, result) => {
-        if(result.length >0){
-            if(pass===result[0].ProdPass){
-                res.send("1");
+        if (result.length > 0) {
+            if (pass === result[0].ProdPass) {
+                res.send({
+                    result: 1,
+                    username: result[0].ProdUserName,
+                    name: result[0].ProdName,
+                })
             }
-            else{
-                res.send("2");
+            else {
+                res.send({
+                    result: 2,
+                })
             }
         }
-        else{
+        else {
             res.status(400);
             res.send("3");
         }
@@ -111,15 +150,21 @@ app.get("/api/authe", (req, res) => {                             //For authenti
     const pass = req.query.EmpPass;
     const sqlAuth = "SELECT * FROM employee WHERE EmpUserName=? "
     db.query(sqlAuth, [name], (err, result) => {
-        if(result.length >0){
-            if(pass===result[0].EmpPass){
-                res.send("1");
+        if (result.length > 0) {
+            if (pass === result[0].EmpPass) {
+                res.send({
+                    result: 1,
+                    username: result[0].EmpUserName,
+                    name: result[0].EmpName,
+                })
             }
-            else{
-                res.send("2");
+            else {
+                res.send({
+                    result: 2,
+                })
             }
         }
-        else{
+        else {
             res.status(400);
             res.send("3");
         }
@@ -128,7 +173,7 @@ app.get("/api/authe", (req, res) => {                             //For authenti
 
 //app.get("/api/team",(req,res)=>{                             //To get Teamdetails
 // const TeamName=req.body.TeamName;
-// const sqlget="SELECT * FROM teams WHERE TeamName=?"
+// const sqlget="SELECT * FROM team WHERE TeamName=?"
 // db.query(sqlget,[TeamName],(err,result)=>{
 //     console.log(result);
 // })
@@ -150,13 +195,13 @@ app.get("/api/authe", (req, res) => {                             //For authenti
 // })
 //});
 
-//app.get("/api/view_teams",(req,res)=>{                             //View Teams madr by particular prodManager
-// const ProdUserName=req.body.ProdUserName;
-// const sqlget="SELECT * FROM teams WHERE ProdUserName=?"
-// db.query(sqlget,[ProdUserName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.get("/api/view_teams", (req, res) => {                             //View Teams madr by particular prodManager
+    const ProdUserName = req.query.ProdUserName;
+    const sqlget = "SELECT * FROM team WHERE ProdUserName=?"
+    db.query(sqlget, [ProdUserName], (err, result) => {
+        res.send(result)
+    })
+});
 
 //app.get("/api/view_t_Employee",(req,res)=>{                             //Get EmpUserName of Emp in team
 // const TName=req.body.TName;
