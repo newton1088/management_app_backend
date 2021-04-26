@@ -78,7 +78,7 @@ app.post("/api/insertt", (req, res) => {                   //For Creating Team
 //const Projct=req.body.Project;
 //const Date=req.body.Date;
 //const TeamName=req.body.TeamName;
-// const sqlInsert="UPDATE SET team Project=?,Date=? Where TeamName=?;"
+// const sqlInsert="UPDATE team SET Project=?,Date=? Where TeamName=?;"
 // db.query(sqlInsert,[Project,Date,TeamName],(err,result)=>{
 //     console.log();
 // })
