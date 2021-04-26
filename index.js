@@ -205,31 +205,19 @@ app.get("/api/view_teams", (req, res) => {                             //View Te
 app.get("/api/view_t_Employee", (req, res) => {                             //Get EmpUserName of Emp in team
     const TName = req.query.TName;
 
-    const sqlgetname = "SELECT * FROM employee WHERE EmpUserName=?"
-
-
-    const sqlget = "SELECT EmpUserName FROM teamtoemp WHERE TeamName=?"
-    var list = [];
+    const sqlget = "Select emp.EmpUserName,emp.EmpName from employee emp,teamtoemp t where (t.EmpUserName=emp.EmpUserName and t.TeamName=?);"
     db.query(sqlget, [TName], (err, result) => {
-        result.map((emp, index) => {
-            if (result.length === 0) {
-                res.send(list)
-            }
-            db.query(sqlgetname, [emp.EmpUserName], (err, result1) => {
-                list.push(result1[0])
-                if (index === result.length - 1) {
-                    res.send(list)
-                }
-            })
-        })
+        res.send(result)
+
     })
 });
 
 app.get("/api/view_nit_Employee", (req, res) => {                             //Get EmpUserName of Emp not in team
     const TName = req.query.TName;
-    const sqlget = "Select distinct emp.EmpName,emp.EmpUserName from employee emp Left Join teamtoemp t on t.EmpUserName=emp.EmpUserName Where t.EmpUserName is NULL Or t.TeamName<>?;"
+    const sqlget = "(Select distinct emp.EmpName,emp.EmpUserName from employee emp LEFT Join teamtoemp t on (t.EmpUserName=emp.EmpUserName) Where t.EmpUserName is NULL) UNION (Select distinct emp.EmpName,emp.EmpUserName from employee emp where not exists (Select * from teamtoemp where TeamName=? and EmpUserName=emp.EmpUserName))"
     db.query(sqlget, [TName], (err, result) => {
-        console.log(result)
+        // console.log(result,'result')
+        // console.log(err,'err')
         res.send(result)
     })
 });
@@ -250,10 +238,12 @@ app.get("/api/view_nit_Employee", (req, res) => {                             //
 //});
 
 app.delete("/api/remove_employee_from_team", (req, res) => {                       //Remove Emp from team
-    const EmpUserName = req.body.EmpUserName;
-    const TeamName = req.body.TeamName;
+    const EmpUserName = req.query.EmpUserName;
+    const TeamName = req.query.TeamName;
     const sqlupdate = "Delete FROM teamtoemp where EmpUserName=? and TeamName=?";
     db.query(sqlupdate, [EmpUserName, TeamName], (err, result) => {
+        // console.log(EmpUserName,TeamName,result)
+        res.status(200)
     })
 });
 
@@ -273,21 +263,18 @@ app.delete("/api/remove_employee_from_team", (req, res) => {                    
 // })
 //});
 
-//app.delete("/api/delete_team",(req,res)=>{                             //Delete Team
-// const TeamName=req.body.TeamName;
-// const sqldelete="DELETE FROM employee WHERE TeamName=?"
-// db.query(sqldelete,[TeamName],(err,result)=>{
-//     console.log(result);
-// })
-//});
-
-//app.delete("/api/delete_team_from_emp",(req,res)=>{                      //Delete Team(Call both),Remove all members from Team
-// const TeamName=req.body.TeamName;
-// const sqldelete="DELETE FROM employee WHERE TeamName=?"
-// db.query(sqldelete,[EmpUserName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.delete("/api/delete_team_from_emp", (req, res) => {                      //Delete Team(Call both),Remove all members from Team
+    const TeamName = req.query.TeamName;
+    const sqldelete = "DELETE FROM teamtoemp WHERE TeamName=?"
+    db.query(sqldelete, [TeamName], (err, result) => {
+        console.log(result);
+    })
+    const sqldelete1 = "DELETE FROM team WHERE TeamName=?"
+    db.query(sqldelete1, [TeamName], (err, result) => {
+        console.log(result);
+    })
+    res.status(200)
+});
 
 app.listen(4000, () => {
     console.log('listening')
