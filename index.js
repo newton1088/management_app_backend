@@ -26,7 +26,6 @@ app.post("/api/insertp", (req, res) => {                 // For prodManager Regi
         if (result.length === 0) {
             db.query(sqlInsert, [UserName, name, pass], (err, result1) => {
                 res.send("success");
-                console.log(result1, "result");
             })
         }
         else {
@@ -48,7 +47,6 @@ app.post("/api/inserte", (req, res) => {                  // For Employee Regist
         if (result.length === 0) {
             db.query(sqlInsert, [UserName, name, pass], (error, result1) => {
                 res.send("success");
-                console.log(result1, "result");
             })
         }
         else {
@@ -86,14 +84,14 @@ app.post("/api/insertt", (req, res) => {                   //For Creating Team
 // })
 //});
 
-//app.put("/api/assign_team",(req,res)=>{                   //For Adding emp to team
-//const TeamName=req.body.TeamName;
-//const EmpUserName=req.body.EmpUserName;
-// const sqlAssign="INSERT INTO teamtoemp(TeamName,EmpUserName) VALUES (?,?);"
-// db.query(sqlAssign,[TeamName,EmpUserName],(err,result)=>{
-//     console.log();
-// })
-//});
+app.put("/api/assign_team", (req, res) => {                   //For Adding emp to team
+    const TeamName = req.body.TeamName;
+    const EmpUserName = req.body.EmpUserName;
+    const sqlAssign = "INSERT INTO teamtoemp(TeamName,EmpUserName) VALUES (?,?);"
+    db.query(sqlAssign, [TeamName, EmpUserName], (err, result) => {
+        console.log(result)
+    })
+});
 
 //app.get("/api/checkp",(req,res)=>{                         //TO check if same username exist for prodManager
 // const name=req.body.ProdUserName;
@@ -187,13 +185,14 @@ app.get("/api/authe", (req, res) => {                             //For authenti
 // })
 //});
 
-//app.get("/api/emp",(req,res)=>{                             //To get Emp details
-// const EmpUserName=req.body.EmpUserName;
-// const sqlget="SELECT * FROM employee WHERE EmpUserName=?"
-// db.query(sqlget,[EmpUserName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+// app.get("/api/emp", (req, res) => {                             //To get Emp details
+//     const EmpUserName = req.query.EmpUserName;
+//     const sqlget = "SELECT * FROM employee WHERE EmpUserName=?"
+//     db.query(sqlget, [EmpUserName], (err, result) => {
+//         res.send(result[0]);
+//         console.log(result[0])
+//     })
+// });
 
 app.get("/api/view_teams", (req, res) => {                             //View Teams madr by particular prodManager
     const ProdUserName = req.query.ProdUserName;
@@ -203,28 +202,44 @@ app.get("/api/view_teams", (req, res) => {                             //View Te
     })
 });
 
-//app.get("/api/view_t_Employee",(req,res)=>{                             //Get EmpUserName of Emp in team
-// const TName=req.body.TName;
-// const sqlget="SELECT EmpUserName FROM teamtoemp WHERE TeamName=?"
-// db.query(sqlget,[TName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.get("/api/view_t_Employee", (req, res) => {                             //Get EmpUserName of Emp in team
+    const TName = req.query.TName;
 
-//app.get("/api/view_nit_Employee",(req,res)=>{                             //Get EmpUserName of Emp not in team
-// const TName=req.body.TName;
-// const sqlget="SELECT EmpUserName FROM teamtoemp WHERE TeamName <> ?"
-// db.query(sqlget,[TName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+    const sqlgetname = "SELECT * FROM employee WHERE EmpUserName=?"
 
-//app.get("/api/view_all_Employee",(req,res)=>{                             //View all Emp
-// const sqlget="SELECT * FROM Employee"
-// db.query(sqlget,(err,result)=>{
-//     console.log(result);
-// })
-//});
+
+    const sqlget = "SELECT EmpUserName FROM teamtoemp WHERE TeamName=?"
+    var list = [];
+    db.query(sqlget, [TName], (err, result) => {
+        result.map((emp, index) => {
+            if (result.length === 0) {
+                res.send(list)
+            }
+            db.query(sqlgetname, [emp.EmpUserName], (err, result1) => {
+                list.push(result1[0])
+                if (index === result.length - 1) {
+                    res.send(list)
+                }
+            })
+        })
+    })
+});
+
+app.get("/api/view_nit_Employee", (req, res) => {                             //Get EmpUserName of Emp not in team
+    const TName = req.query.TName;
+    const sqlget = "Select distinct emp.EmpName,emp.EmpUserName from employee emp Left Join teamtoemp t on t.EmpUserName=emp.EmpUserName Where t.EmpUserName is NULL Or t.TeamName<>?;"
+    db.query(sqlget, [TName], (err, result) => {
+        console.log(result)
+        res.send(result)
+    })
+});
+
+// app.get("/api/view_all_Employee", (req, res) => {                             //View all Emp
+//     const sqlget = "SELECT * FROM Employee"
+//     db.query(sqlget, (err, result) => {
+//         console.log(result);
+//     })
+// });
 
 //app.get("/api/view_Employee_to_team",(req,res)=>{                             //Get TeamName of Emp's teams
 // const EmpUserName=req.body.EmpUserName;
@@ -234,14 +249,13 @@ app.get("/api/view_teams", (req, res) => {                             //View Te
 // })
 //});
 
-//app.delete("/api/remove_employee_from_team",(req,res)=>{                       //Remove Emp from team
-// const EmpUserName=req.body.EmpUserName;
-// const TeamName=req.body.TeamName;
-// const sqlupdate="Delete FROM teamtoemp where EmpUserName=? and TeamName=?";
-// db.query(sqlupdate,[EmpUserName,TeamName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.delete("/api/remove_employee_from_team", (req, res) => {                       //Remove Emp from team
+    const EmpUserName = req.body.EmpUserName;
+    const TeamName = req.body.TeamName;
+    const sqlupdate = "Delete FROM teamtoemp where EmpUserName=? and TeamName=?";
+    db.query(sqlupdate, [EmpUserName, TeamName], (err, result) => {
+    })
+});
 
 //app.delete("/api/delete_employee",(req,res)=>{                             //Delete emmployee
 // const EmpUserName=req.body.EmpUserName;
