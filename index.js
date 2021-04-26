@@ -35,6 +35,14 @@ app.post("/api/inserte", (req, res) => {                  // For Employee Regist
         console.log(result, "result");
     })
 });
+app.post("/api/inserte1", (req, res) => {                  // For Employee Registration
+    const UserName = req.body.EmpUserName;
+    const sqlInsert = "INSERT INTO teamtoEmp(EmpUserName) VALUES (?);"
+    db.query(sqlInsert, [UserName], (err, result) => {
+        res.send("success");
+        console.log(result, "result");
+    })
+});
 //app.post("/api/insertt",(req,res)=>{                   //For Creating Team
 // const ProdUserName=req.body.ProdUserName;
 // const TeamName=req.body.TeamName
@@ -47,7 +55,7 @@ app.post("/api/inserte", (req, res) => {                  // For Employee Regist
 //const Projct=req.body.Project;
 //const Date=req.body.Date;
 //const TeamName=req.body.TeamName;
-// const sqlInsert="UPDATE SET team Project=?,Date=? Where TeamName=?;"
+// const sqlInsert="UPDATE team SET Project=?,Date=? Where TeamName=?;"
 // db.query(sqlInsert,[Project,Date,TeamName],(err,result)=>{
 //     console.log();
 // })
@@ -56,7 +64,7 @@ app.post("/api/inserte", (req, res) => {                  // For Employee Regist
 //app.put("/api/assign_team",(req,res)=>{                   //For Adding emp to team
 //const TeamName=req.body.TeamName;
 //const EmpUserName=req.body.EmpUserName;
-// const sqlAssign="INSERT INTO teamtoemp(TeamName,EmpUserName) VALUES (?,?);"
+// const sqlAssign="UPDATE teamtoemp SET TeamName=? Where EmpUserName=?;"
 // db.query(sqlAssign,[TeamName,EmpUserName],(err,result)=>{
 //     console.log();
 // })
@@ -160,7 +168,7 @@ app.get("/api/authe", (req, res) => {                             //For authenti
 
 //app.get("/api/view_t_Employee",(req,res)=>{                             //Get EmpUserName of Emp in team
 // const TName=req.body.TName;
-// const sqlget="SELECT EmpUserName FROM teamtoemp WHERE TeamName=?"
+// const sqlget="Select emp.EmpUserName,emp.EmpName from employee emp,teamtoemp t Where  t.EmpName = emp.EmpName and t.TeamName =?; "
 // db.query(sqlget,[TName],(err,result)=>{
 //     console.log(result);
 // })
@@ -168,7 +176,7 @@ app.get("/api/authe", (req, res) => {                             //For authenti
 
 //app.get("/api/view_nit_Employee",(req,res)=>{                             //Get EmpUserName of Emp not in team
 // const TName=req.body.TName;
-// const sqlget="SELECT EmpUserName FROM teamtoemp WHERE TeamName <> ?"
+ //const sqlget="Select emp.EmpUserName,emp.EmpName from employee emp,teamtoemp t Where  t.EmpName = emp.EmpName and t.TeamName <> ?"
 // db.query(sqlget,[TName],(err,result)=>{
 //     console.log(result);
 // })
