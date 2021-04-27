@@ -89,7 +89,7 @@ app.put("/api/assign_team", (req, res) => {                   //For Adding emp t
     const EmpUserName = req.body.EmpUserName;
     const sqlAssign = "INSERT INTO teamtoemp(TeamName,EmpUserName) VALUES (?,?);"
     db.query(sqlAssign, [TeamName, EmpUserName], (err, result) => {
-        console.log(result)
+        res.send("success")
     })
 });
 
@@ -229,13 +229,13 @@ app.get("/api/view_nit_Employee", (req, res) => {                             //
 //     })
 // });
 
-//app.get("/api/view_Employee_to_team",(req,res)=>{                             //Get TeamName of Emp's teams
-// const EmpUserName=req.body.EmpUserName;
-// const sqlget="SELECT TeamName FROM teamtoemp WHERE EmpUserName=?"
-// db.query(sqlget,[EnpUserName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.get("/api/view_Employee_to_team", (req, res) => {                             //Get TeamName of Emp's teams
+    const EmpUserName = req.query.EmpUserName;
+    const sqlget = "SELECT TeamName FROM teamtoemp WHERE EmpUserName=?"
+    db.query(sqlget, [EmpUserName], (err, result) => {
+        res.send(result);
+    })
+});
 
 app.delete("/api/remove_employee_from_team", (req, res) => {                       //Remove Emp from team
     const EmpUserName = req.query.EmpUserName;
@@ -243,7 +243,7 @@ app.delete("/api/remove_employee_from_team", (req, res) => {                    
     const sqlupdate = "Delete FROM teamtoemp where EmpUserName=? and TeamName=?";
     db.query(sqlupdate, [EmpUserName, TeamName], (err, result) => {
         // console.log(EmpUserName,TeamName,result)
-        res.status(200)
+        res.send("success")
     })
 });
 
@@ -267,13 +267,13 @@ app.delete("/api/delete_team_from_emp", (req, res) => {                      //D
     const TeamName = req.query.TeamName;
     const sqldelete = "DELETE FROM teamtoemp WHERE TeamName=?"
     db.query(sqldelete, [TeamName], (err, result) => {
-        console.log(result);
+        // console.log(result);
     })
     const sqldelete1 = "DELETE FROM team WHERE TeamName=?"
     db.query(sqldelete1, [TeamName], (err, result) => {
-        console.log(result);
+        // console.log(result);
     })
-    res.status(200)
+    res.send("success")
 });
 
 app.listen(4000, () => {
