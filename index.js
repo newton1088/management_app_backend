@@ -169,13 +169,13 @@ app.get("/api/authe", (req, res) => {                             //For authenti
     })
 });
 
-//app.get("/api/team",(req,res)=>{                             //To get Teamdetails
-// const TeamName=req.body.TeamName;
-// const sqlget="SELECT * FROM team WHERE TeamName=?"
-// db.query(sqlget,[TeamName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.get("/api/team", (req, res) => {                             //To get Teamdetails
+    const TeamName = req.query.TeamName;
+    const sqlget = "SELECT * FROM team WHERE TeamName=?"
+    db.query(sqlget, [TeamName], (err, result) => {
+        res.send(result[0]);
+    })
+});
 
 //app.get("/api/prod",(req,res)=>{                             //To get prodManager details
 // const ProdUserName=req.body.ProdUserName;
