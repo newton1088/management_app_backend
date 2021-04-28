@@ -74,15 +74,15 @@ app.post("/api/insertt", (req, res) => {                   //For Creating Team
     })
 
 });
-//app.put("/api/assign_project",(req,res)=>{               //For Project Assign
-//const Projct=req.body.Project;
-//const Date=req.body.Date;
-//const TeamName=req.body.TeamName;
-// const sqlInsert="UPDATE team SET Project=?,Date=? Where TeamName=?;"
-// db.query(sqlInsert,[Project,Date,TeamName],(err,result)=>{
-//     console.log();
-// })
-//});
+app.put("/api/assign_project", (req, res) => {               //For Project Assign
+    const Project = req.body.Project;
+    const Date = req.body.Date;
+    const TeamName = req.body.TeamName;
+    const sqlInsert = "UPDATE team SET Project=?,Date=? Where TeamName=?;"
+    db.query(sqlInsert, [Project, Date, TeamName], (err, result) => {
+        console.log(result);
+    })
+});
 
 app.put("/api/assign_team", (req, res) => {                   //For Adding emp to team
     const TeamName = req.body.TeamName;
