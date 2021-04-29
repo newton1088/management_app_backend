@@ -275,7 +275,7 @@ app.delete("/api/delete_team_from_emp", (req, res) => {                      //D
     })
     res.send("success")
 });
-
-app.listen(4000, () => {
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
     console.log('listening')
 });
