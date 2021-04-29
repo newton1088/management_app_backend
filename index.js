@@ -80,7 +80,7 @@ app.put("/api/assign_project", (req, res) => {               //For Project Assig
     const TeamName = req.body.TeamName;
     const sqlInsert = "UPDATE team SET Project=?,Date=? Where TeamName=?;"
     db.query(sqlInsert, [Project, Date, TeamName], (err, result) => {
-        console.log(result);
+        res.send("success")
     })
 });
 
