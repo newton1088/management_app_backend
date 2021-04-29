@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors');
 const app = express();
 const mysql = require('mysql')
-const port= 4000;
+const port = 4000;
 
 const db = mysql.createPool({
     host: 'sql6.freesqldatabase.com',
@@ -17,7 +17,7 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send('HOLA!')
 })
 
@@ -253,13 +253,13 @@ app.delete("/api/remove_employee_from_team", (req, res) => {                    
     })
 });
 
-//app.delete("/api/delete_employee",(req,res)=>{                             //Delete emmployee
-// const EmpUserName=req.body.EmpUserName;
-// const sqldelete="DELETE FROM employee WHERE EmpUserName=?"
-// db.query(sqldelete,[EmpUserName],(err,result)=>{
-//     console.log(result);
-// })
-//});
+app.put("/api/remove_Project", (req, res) => {   
+    const TeamName=req.body.TeamName;     
+    const sqlupdate = "UPDATE team SET Project='',Date='' where TeamName=?"
+    db.query(sqlupdate, [TeamName], (err, result) => {
+        res.send("success")
+    })
+});
 
 //app.delete("/api/delete_employee_from_team",(req,res)=>{                     //Delete Employee (Call both)
 // const EmpUserName=req.body.EmpUserName;
@@ -282,6 +282,6 @@ app.delete("/api/delete_team_from_emp", (req, res) => {                      //D
     res.send("success")
 });
 
-app.listen(process.env.PORT|| port, () => {
-    console.log(`listening at ${port}`)
+app.listen(process.env.PORT || port, () => {
+    console.log(`listening at ${process.env.PORT || port}`)
 });
