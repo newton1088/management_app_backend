@@ -26,7 +26,7 @@ app.post("/api/insertp", (req, res) => {                 // For prodManager Regi
     const name = req.body.ProdName;
     const pass = req.body.ProdPass;
     const sqlInsert = "INSERT INTO prodManager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
-    const sqlAuth = "SELECT count(*) FROM prodManager WHERE ProdUserName=?"
+    const sqlAuth = "SELECT * FROM prodManager WHERE ProdUserName=?"
 
     db.query(sqlAuth, [name], (err, result) => {
         if (result.length === 0) {
@@ -35,8 +35,7 @@ app.post("/api/insertp", (req, res) => {                 // For prodManager Regi
             })
         }
         else {
-            res.status(400);
-            res.send();
+            res.send("2");
         }
     })
 
@@ -56,8 +55,7 @@ app.post("/api/inserte", (req, res) => {                  // For Employee Regist
             })
         }
         else {
-            res.status(400);
-            res.send();
+            res.send("2");
         }
     })
 });
