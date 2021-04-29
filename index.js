@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors');
 const app = express();
 const mysql = require('mysql')
+const port= 4000;
 
 const db = mysql.createPool({
     host: 'sql6.freesqldatabase.com',
@@ -15,6 +16,11 @@ const db = mysql.createPool({
 app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.get("/",(req,res)=>{
+    res.send('HOLA!')
+})
+
 app.post("/api/insertp", (req, res) => {                 // For prodManager Registration
     const UserName = req.body.ProdUserName;
     const name = req.body.ProdName;
@@ -276,6 +282,6 @@ app.delete("/api/delete_team_from_emp", (req, res) => {                      //D
     res.send("success")
 });
 
-app.listen(4000, () => {
-    console.log('listening')
+app.listen(process.env.PORT|| port, () => {
+    console.log(`listening at ${port}`)
 });
