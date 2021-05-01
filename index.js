@@ -7,9 +7,9 @@ const port = 4000;
 
 const db = mysql.createPool({
     host: 'sql6.freesqldatabase.com',
-    user: 'sql6407900',
-    password: 'rIJ4sSllJb',
-    database: 'sql6407900',
+    user: 'sql6409566',
+    password: '7fzVPL6NbF',
+    database: 'sql6409566',
     port: '3306'
 });
 
