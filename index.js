@@ -28,7 +28,7 @@ app.post("/api/insertp", (req, res) => {                 // For prodManager Regi
     const sqlInsert = "INSERT INTO prodManager(ProdUserName,ProdName,ProdPass) VALUES (?,?,?);"
     const sqlAuth = "SELECT * FROM prodManager WHERE ProdUserName=?"
 
-    db.query(sqlAuth, [name], (err, result) => {
+    db.query(sqlAuth, [UserName], (err, result) => {
         if (result.length === 0) {
             db.query(sqlInsert, [UserName, name, pass], (err, result1) => {
                 res.send("success");
